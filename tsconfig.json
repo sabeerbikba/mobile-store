@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "lib": ["dom", "es2015"], // Add "es2015" or later
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "allowJs": true,
@@ -9,7 +10,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "strict": true,
-    "typeRoots": ["node_modules/@types", "src/types"]
+    "typeRoots": ["node_modules/@types", "src/types"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src", "**/*.ts", "**/*.tsx", "**/*.d.ts"]
 }
