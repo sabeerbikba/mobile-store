@@ -15,7 +15,7 @@ const AboutUs = () => (
             </p>
          </div>
          <img
-            src="/placeholder.svg"
+            src="/Sangeetha-mobile-store-kumta.jpg"
             alt="PhoneHub Store"
             width={600}
             height={400}
@@ -32,8 +32,8 @@ const AboutUs = () => (
                { title: "Continuous Innovation", description: "We stay at the forefront of mobile technology to bring you the latest and best products." },
             ].map((value, index) => (
                <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                  <CheckCircle2 className="text-green-500 mb-2" size={24} />
-                  <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
+                  <CheckCircle2 className="text-green-500 mb-2 inline mr-2" size={24} />
+                  <h3 className="text-xl font-semibold mb-2 inline">{value.title}</h3>
                   <p className="text-gray-600">{value.description}</p>
                </div>
             ))}
@@ -51,7 +51,7 @@ const AboutUs = () => (
             ].map((member, index) => (
                <div key={index} className="text-center">
                   <img
-                     src="/placeholder.svg"
+                     src="/staff.jpeg"
                      alt={member.name}
                      width={200}
                      height={200}

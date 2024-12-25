@@ -9,9 +9,9 @@ import { useState, useEffect } from "react";
 const useLocalStorageState = <T>(
   key: string,
   initialValue: T,
-): [T, (newValue: T) => void] => {
+): [T, (newValue: T | ((prevValue: T) => T)) => void] => {
   const storedValue = localStorage.getItem(key);
-  let initial;
+  let initial: T;
 
   if (storedValue !== null) {
     try {
@@ -25,12 +25,6 @@ const useLocalStorageState = <T>(
   }
 
   const [value, setValue] = useState(initial);
-
-  useEffect(() => {
-    if (storedValue === null) {
-      localStorage.setItem(key, JSON.stringify(initialValue));
-    }
-  }, [key, initialValue, storedValue]);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
@@ -47,13 +41,23 @@ const useLocalStorageState = <T>(
    * Function to update the value in localStorage and state.
    * @param {any} newValue - The new value to set and store in local storage.
    */
-  const setStoredValue = (newValue: T) => {
-    setValue(newValue);
-    localStorage.setItem(key, JSON.stringify(newValue));
+  const setStoredValue = (newValue: T | ((prevValue: T) => T)) => {
+    setValue((prevValue) => {
+      const valueToStore =
+        typeof newValue === "function"
+          ? (newValue as (prevValue: T) => T)(prevValue)
+          : newValue;
 
-    window.dispatchEvent(
-      new CustomEvent("local-storage-update", { detail: { key, newValue } }),
-    );
+      localStorage.setItem(key, JSON.stringify(valueToStore));
+
+      window.dispatchEvent(
+        new CustomEvent("local-storage-update", {
+          detail: { key, newValue: valueToStore },
+        }),
+      );
+
+      return valueToStore;
+    });
   };
 
   useEffect(() => {
